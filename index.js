@@ -10,6 +10,8 @@ import {
   ViewPropTypes as RNViewPropTypes
 } from 'react-native';
 
+
+
 const ViewPropTypes = RNViewPropTypes || View.propTypes;
 
 class Autocomplete extends Component {
@@ -82,7 +84,7 @@ class Autocomplete extends Component {
     defaultValue: '',
     keyboardShouldPersistTaps: 'always',
     onStartShouldSetResponderCapture: () => false,
-    renderItem: rowData => <Text>{rowData}</Text>,
+    renderItem: rowData =><Text>{rowData}</Text>,
     renderSeparator: null,
     renderTextInput: props => <TextInput {...props} underlineColorAndroid='transparent' />
   };
@@ -118,8 +120,8 @@ class Autocomplete extends Component {
 
   renderResultList() {
     const { dataSource } = this.state;
-    const { listStyle, renderItem, renderSeparator, keyboardShouldPersistTaps } = this.props;
 
+    const { listStyle, renderItem, renderSeparator, keyboardShouldPersistTaps } = this.props;
     return (
       <ListView
         ref={(resultList) => { this.resultList = resultList; }}
@@ -159,16 +161,20 @@ class Autocomplete extends Component {
     // Notify listener if the suggestion will be shown.
     onShowResults && onShowResults(showResults);
 
-    return (
-      <View style={[styles.container, containerStyle]}>
-        <View style={[styles.containerInner]}>
-          <View style={[inputContainerStyle]}>
-            {this.renderTextInput()}
-          </View>
+    const OldInput = (
+      <View style={[styles.containerInner]}>
+        <View style={[inputContainerStyle]}>
+
         </View>
+      </View>
+    )
+
+    return (
+      <View style={[containerStyle]}>
+        {this.renderTextInput()}
         {!hideResults && (
           <View
-            style={listContainerStyle}
+            style={[listContainerStyle]}
             onStartShouldSetResponderCapture={onStartShouldSetResponderCapture}
           >
             {showResults && this.renderResultList()}
@@ -182,10 +188,11 @@ class Autocomplete extends Component {
 
 const androidStyles = {
   list: {
-    backgroundColor: 'white',
-    borderTopWidth: 0,
-    margin: 10,
-    marginTop: 0
+    backgroundColor: '#fff',
+    borderColor: '#eee',
+    borderWidth: 1,
+    padding: 10,
+    marginTop: 10,
   }
 };
 
@@ -202,6 +209,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     paddingLeft: 20,
     paddingRight: 20,
+    display: 'none',
   },
   ...androidStyles,
 });
