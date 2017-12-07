@@ -84,7 +84,7 @@ class Autocomplete extends Component {
     onStartShouldSetResponderCapture: () => false,
     renderItem: rowData => <Text>{rowData}</Text>,
     renderSeparator: null,
-    renderTextInput: props => <TextInput {...props} />
+    renderTextInput: props => <TextInput {...props} underlineColorAndroid='transparent' />
   };
 
   constructor(props) {
@@ -161,8 +161,10 @@ class Autocomplete extends Component {
 
     return (
       <View style={[styles.container, containerStyle]}>
-        <View style={[styles.inputContainer, inputContainerStyle]}>
-          {this.renderTextInput()}
+        <View style={[styles.containerInner]}>
+          <View style={[inputContainerStyle]}>
+            {this.renderTextInput()}
+          </View>
         </View>
         {!hideResults && (
           <View
@@ -177,22 +179,9 @@ class Autocomplete extends Component {
   }
 }
 
-const border = {
-  borderColor: '#b9b9b9',
-  borderRadius: 1,
-  borderWidth: 1
-};
 
 const androidStyles = {
-  container: {
-    flex: 1
-  },
-  inputContainer: {
-    ...border,
-    marginBottom: 0
-  },
   list: {
-    ...border,
     backgroundColor: 'white',
     borderTopWidth: 0,
     margin: 10,
@@ -200,38 +189,21 @@ const androidStyles = {
   }
 };
 
-const iosStyles = {
-  container: {
-    zIndex: 1
-  },
-  inputContainer: {
-    ...border
-  },
-  input: {
-    backgroundColor: 'white',
-    height: 40,
-    paddingLeft: 3
-  },
-  list: {
-    ...border,
-    backgroundColor: 'white',
-    borderTopWidth: 0,
-    left: 0,
-    position: 'absolute',
-    right: 0
-  }
-};
-
 const styles = StyleSheet.create({
-  input: {
-    backgroundColor: 'white',
-    height: 40,
-    paddingLeft: 3
+  containerInner: {
+    borderRadius: 25,
+    overflow: 'hidden',
+    backgroundColor: '#f5f5f5',
+    height: 45,
+    borderWidth: 1,
+    borderColor: '#ddd',
   },
-  ...Platform.select({
-    android: { ...androidStyles },
-    ios: { ...iosStyles }
-  })
+  input: {
+    backgroundColor: 'transparent',
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  ...androidStyles,
 });
 
 export default Autocomplete;
